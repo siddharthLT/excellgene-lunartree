@@ -167,33 +167,59 @@ body {
 .fit-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; color: var(--blue); }
 .fit-text { font-size: 11.5px; color: var(--gray-700); line-height: 1.5; }
 
-/* DM grid */
-.dm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+/* DM grid — 4 columns desktop, equal-height cards */
+.dm-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  align-items: stretch;
+}
 .dm-card {
   background: var(--gray-50); border: 1px solid var(--gray-200);
-  border-radius: var(--radius-sm); padding: 13px 14px;
+  border-radius: var(--radius-sm); padding: 14px 14px 12px;
+  display: flex; flex-direction: column;
 }
-.dm-name { font-size: 13px; font-weight: 600; color: var(--gray-900); }
-.dm-title { font-size: 11.5px; color: var(--gray-500); margin-top: 2px; line-height: 1.4; }
-.dm-sig { display: inline-flex; align-items: center; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 10px; margin-top: 5px; }
+.dm-info { flex: 1; }
+.dm-name { font-size: 13px; font-weight: 600; color: var(--gray-900); line-height: 1.3; }
+.dm-title {
+  font-size: 11px; color: var(--gray-500); margin-top: 3px; line-height: 1.4;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.dm-sig {
+  display: inline-flex; align-items: center;
+  font-size: 10px; font-weight: 600;
+  padding: 2px 8px; border-radius: 10px; margin-top: 7px;
+  width: fit-content;
+}
 .sig-c_suite { background: #fef3c7; color: #92400e; }
 .sig-vp { background: var(--blue-light); color: #1e40af; }
 .sig-head { background: var(--green-bg); color: #065f46; }
 .sig-director { background: var(--purple-bg); color: var(--purple); }
 .sig-manager,.sig-senior,.sig-entry { background: var(--gray-200); color: var(--gray-500); }
-.dm-contacts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+/* contacts always pinned to bottom */
+.dm-contacts {
+  display: flex; flex-direction: column; gap: 6px;
+  margin-top: 12px; padding-top: 10px;
+  border-top: 1px solid var(--gray-200);
+}
 .btn-c {
-  display: inline-flex; align-items: center; gap: 5px;
+  display: inline-flex; align-items: center; gap: 6px;
   font-size: 11px; font-weight: 500;
-  padding: 4px 10px; border-radius: 6px;
+  padding: 5px 10px; border-radius: 6px;
   text-decoration: none; border: none; cursor: pointer;
   transition: all 0.12s; line-height: 1;
+  width: 100%; justify-content: flex-start;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.btn-email { background: white; color: var(--gray-700); border: 1px solid var(--gray-300); }
-.btn-email:hover { background: var(--gray-100); border-color: var(--gray-500); }
-.btn-li { background: #0a66c2; color: white; }
+.btn-email {
+  background: white; color: var(--gray-700);
+  border: 1px solid var(--gray-200);
+}
+.btn-email:hover { background: var(--gray-100); border-color: var(--gray-400); }
+.btn-li { background: #0a66c2; color: white; width: auto; }
 .btn-li:hover { background: #085099; }
 .btn-c svg { width: 11px; height: 11px; flex-shrink: 0; }
+.btn-email .btn-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
 
 .no-dm { font-size: 12px; color: var(--gray-400); font-style: italic; padding: 6px 0; }
 
@@ -222,6 +248,9 @@ body {
 .export-box p { font-size: 13px; color: var(--gray-500); }
 
 /* ── RESPONSIVE ─────────────── */
+@media (max-width: 1100px) {
+  .dm-grid { grid-template-columns: repeat(3, 1fr); }
+}
 @media (max-width: 768px) {
   .banner { padding: 14px 16px; gap: 12px; }
   .banner-logo { width: 32px; height: 32px; }
@@ -236,14 +265,14 @@ body {
   .co-body { padding: 14px 16px; }
   .context-row { grid-template-columns: 1fr; }
   .fit-grid { grid-template-columns: 1fr; }
-  .dm-grid { grid-template-columns: 1fr; }
+  .dm-grid { grid-template-columns: repeat(2, 1fr); }
   .btn-export span.export-label { display: none; }
 }
-@media (max-width: 480px) {
+@media (max-width: 500px) {
   .co-badges { gap: 4px; }
   .badge { font-size: 10px; padding: 2px 7px; }
-  .dm-contacts { gap: 5px; }
-  .btn-c { font-size: 10px; padding: 4px 8px; }
+  .dm-grid { grid-template-columns: 1fr; }
+  .btn-c { font-size: 10px; }
 }
 
 /* ── PRINT ──────────────────── */
@@ -353,92 +382,92 @@ body {
     <div class="sec-label">Key Decision Makers</div>
     <div class="dm-grid">
       <div class="dm-card">
-        <div class="dm-name">Jack Higgins</div>
+        <div class="dm-info"><div class="dm-name">Jack Higgins</div>
         <div class="dm-title">Chief Scientific Officer, Immunome</div>
-        <span class="dm-sig sig-c_suite">C-Suite</span>
+        <span class="dm-sig sig-c_suite">C-Suite</span></div>
         <div class="dm-contacts">
-          <a href="mailto:jhiggins@immunome.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> jhiggins@immunome.com</a>
+          <a href="mailto:jhiggins@immunome.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">jhiggins@immunome.com</span></a>
           <a href="https://linkedin.com/in/jack-higgins-75857318" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Dennis Dong</div>
+        <div class="dm-info"><div class="dm-name">Dennis Dong</div>
         <div class="dm-title">Vice President of Product Development</div>
-        <span class="dm-sig sig-vp">VP</span>
+        <span class="dm-sig sig-vp">VP</span></div>
         <div class="dm-contacts">
-          <a href="mailto:ddong@immunome.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> ddong@immunome.com</a>
+          <a href="mailto:ddong@immunome.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">ddong@immunome.com</span></a>
           <a href="https://linkedin.com/in/biotechnologyleader" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Allison Kaeding</div>
+        <div class="dm-info"><div class="dm-name">Allison Kaeding</div>
         <div class="dm-title">Vice President, Clinical Development and Translational Sciences</div>
-        <span class="dm-sig sig-vp">VP</span>
+        <span class="dm-sig sig-vp">VP</span></div>
         <div class="dm-contacts">
-          <a href="mailto:akaeding@immunome.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> akaeding@immunome.com</a>
+          <a href="mailto:akaeding@immunome.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">akaeding@immunome.com</span></a>
           <a href="https://linkedin.com/in/allison-kaeding-md-588654b8" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Taruna Arora</div>
+        <div class="dm-info"><div class="dm-name">Taruna Arora</div>
         <div class="dm-title">Senior Vice President, Research</div>
-        <span class="dm-sig sig-vp">VP</span>
+        <span class="dm-sig sig-vp">VP</span></div>
         <div class="dm-contacts">
-          <a href="mailto:taruna.arora@bms.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> taruna.arora@bms.com</a>
+          <a href="mailto:taruna.arora@bms.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">taruna.arora@bms.com</span></a>
           <a href="https://linkedin.com/in/arorataruna" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Carlos Rodriguez</div>
+        <div class="dm-info"><div class="dm-name">Carlos Rodriguez</div>
         <div class="dm-title">Director, Clinical Supply Operations</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:crodriguez@immunome.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> crodriguez@immunome.com</a>
+          <a href="mailto:crodriguez@immunome.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">crodriguez@immunome.com</span></a>
           <a href="https://linkedin.com/in/carlos-rodriguez-19779813" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Doug Macdonald</div>
+        <div class="dm-info"><div class="dm-name">Doug Macdonald</div>
         <div class="dm-title">Director, Purification Process Development</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:dmacdonald@immunome.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> dmacdonald@immunome.com</a>
+          <a href="mailto:dmacdonald@immunome.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">dmacdonald@immunome.com</span></a>
           <a href="https://linkedin.com/in/doug-macdonald-a285b313" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Jared Casebeer</div>
+        <div class="dm-info"><div class="dm-name">Jared Casebeer</div>
         <div class="dm-title">Sr. Manager of External Manufacturing Operations</div>
-        <span class="dm-sig sig-manager">Manager</span>
+        <span class="dm-sig sig-manager">Manager</span></div>
         <div class="dm-contacts">
-          <a href="mailto:jcasebeer@immunome.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> jcasebeer@immunome.com</a>
+          <a href="mailto:jcasebeer@immunome.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">jcasebeer@immunome.com</span></a>
           <a href="https://linkedin.com/in/jared-casebeer-39ba1894" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Omid Soltani</div>
+        <div class="dm-info"><div class="dm-name">Omid Soltani</div>
         <div class="dm-title">Senior Director Chemical Development</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:osoltani@immunome.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> osoltani@immunome.com</a>
+          <a href="mailto:osoltani@immunome.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">osoltani@immunome.com</span></a>
           <a href="https://linkedin.com/in/omid-s-54682735" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Robert Lawrence</div>
+        <div class="dm-info"><div class="dm-name">Robert Lawrence</div>
         <div class="dm-title">Sr Director, ADC Technologies</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:rlawrence@immunome.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> rlawrence@immunome.com</a>
+          <a href="mailto:rlawrence@immunome.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">rlawrence@immunome.com</span></a>
           <a href="https://linkedin.com/in/robert-lawrence-04361432" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Nomalie Jaya</div>
+        <div class="dm-info"><div class="dm-name">Nomalie Jaya</div>
         <div class="dm-title">Executive Director, Analytical Development & Quality Control</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:njaya@immunome.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> njaya@immunome.com</a>
+          <a href="mailto:njaya@immunome.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">njaya@immunome.com</span></a>
           <a href="https://linkedin.com/in/nomalie-jaya-76111b5" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
@@ -473,92 +502,92 @@ body {
     <div class="sec-label">Key Decision Makers</div>
     <div class="dm-grid">
       <div class="dm-card">
-        <div class="dm-name">Brian Kaspar</div>
+        <div class="dm-info"><div class="dm-name">Brian Kaspar</div>
         <div class="dm-title">Chief Scientific Officer</div>
-        <span class="dm-sig sig-c_suite">C-Suite</span>
+        <span class="dm-sig sig-c_suite">C-Suite</span></div>
         <div class="dm-contacts">
-          <a href="mailto:brian.kaspar@insmed.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> brian.kaspar@insmed.com</a>
+          <a href="mailto:brian.kaspar@insmed.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">brian.kaspar@insmed.com</span></a>
           <a href="https://linkedin.com/in/brian-kaspar-ba8b0ba" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Don Nociolo</div>
+        <div class="dm-info"><div class="dm-name">Don Nociolo</div>
         <div class="dm-title">Vice President Technical Operations</div>
-        <span class="dm-sig sig-vp">VP</span>
+        <span class="dm-sig sig-vp">VP</span></div>
         <div class="dm-contacts">
-          <a href="mailto:dnociolo@insmed.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> dnociolo@insmed.com</a>
+          <a href="mailto:dnociolo@insmed.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">dnociolo@insmed.com</span></a>
           <a href="https://linkedin.com/in/donnociolo" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Matt Westoby</div>
+        <div class="dm-info"><div class="dm-name">Matt Westoby</div>
         <div class="dm-title">Vice President, Product Development, Gene Therapy and Large Molecule CMC</div>
-        <span class="dm-sig sig-vp">VP</span>
+        <span class="dm-sig sig-vp">VP</span></div>
         <div class="dm-contacts">
-          <a href="mailto:matt.westoby@insmed.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> matt.westoby@insmed.com</a>
+          <a href="mailto:matt.westoby@insmed.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">matt.westoby@insmed.com</span></a>
           <a href="https://linkedin.com/in/matthewwestoby" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">William Thiele</div>
+        <div class="dm-info"><div class="dm-name">William Thiele</div>
         <div class="dm-title">Vice President, Product Development - CMC, Small Molecules</div>
-        <span class="dm-sig sig-vp">VP</span>
+        <span class="dm-sig sig-vp">VP</span></div>
         <div class="dm-contacts">
-          <a href="mailto:william.thiele@insmed.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> william.thiele@insmed.com</a>
+          <a href="mailto:william.thiele@insmed.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">william.thiele@insmed.com</span></a>
           <a href="https://linkedin.com/in/william-jay-thiele-phd-4406b96" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Diane Fiorenza</div>
+        <div class="dm-info"><div class="dm-name">Diane Fiorenza</div>
         <div class="dm-title">Senior Vice President</div>
-        <span class="dm-sig sig-vp">VP</span>
+        <span class="dm-sig sig-vp">VP</span></div>
         <div class="dm-contacts">
-          <a href="mailto:diane.fiorenza@insmed.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> diane.fiorenza@insmed.com</a>
+          <a href="mailto:diane.fiorenza@insmed.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">diane.fiorenza@insmed.com</span></a>
           <a href="https://linkedin.com/in/diane-fiorenza-6a919a38" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Nadejda Soukhareva</div>
+        <div class="dm-info"><div class="dm-name">Nadejda Soukhareva</div>
         <div class="dm-title">Executive Director, Regulatory Affairs ( Head of Global Regulatory Strategy)</div>
-        <span class="dm-sig sig-head">Head</span>
+        <span class="dm-sig sig-head">Head</span></div>
         <div class="dm-contacts">
-          <a href="mailto:nadejda.soukhareva@insmed.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> nadejda.soukhareva@insmed.com</a>
+          <a href="mailto:nadejda.soukhareva@insmed.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">nadejda.soukhareva@insmed.com</span></a>
           <a href="https://linkedin.com/in/nadejda-soukhareva-7258bab" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Darshini Shah</div>
+        <div class="dm-info"><div class="dm-name">Darshini Shah</div>
         <div class="dm-title">Associate Director, CMC and Process Development</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:darshini.shah@insmed.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> darshini.shah@insmed.com</a>
+          <a href="mailto:darshini.shah@insmed.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">darshini.shah@insmed.com</span></a>
           <a href="https://linkedin.com/in/darshini-shah-40187921" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Long Chen</div>
+        <div class="dm-info"><div class="dm-name">Long Chen</div>
         <div class="dm-title">Associate Director - MSAT</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:long.chen@insmed.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> long.chen@insmed.com</a>
+          <a href="mailto:long.chen@insmed.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">long.chen@insmed.com</span></a>
           <a href="https://linkedin.com/in/long-chen1" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Vanessa Zimmerman</div>
+        <div class="dm-info"><div class="dm-name">Vanessa Zimmerman</div>
         <div class="dm-title">Associate Director, Regulatory Affairs, Tactical Implementation</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:vanessa.zimmerman@insmed.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> vanessa.zimmerman@insmed.com</a>
+          <a href="mailto:vanessa.zimmerman@insmed.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">vanessa.zimmerman@insmed.com</span></a>
           <a href="https://linkedin.com/in/vanessa-zimmerman-112a9946" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Brian Miller</div>
+        <div class="dm-info"><div class="dm-name">Brian Miller</div>
         <div class="dm-title">Director Manufacturing Science & Technology</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:brian.miller@insmed.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> brian.miller@insmed.com</a>
+          <a href="mailto:brian.miller@insmed.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">brian.miller@insmed.com</span></a>
           <a href="https://linkedin.com/in/brian-miller-5388736" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
@@ -593,38 +622,38 @@ body {
     <div class="sec-label">Key Decision Makers</div>
     <div class="dm-grid">
       <div class="dm-card">
-        <div class="dm-name">Joe Lewcock</div>
+        <div class="dm-info"><div class="dm-name">Joe Lewcock</div>
         <div class="dm-title">Chief Scientific Officer, Head of Discovery</div>
-        <span class="dm-sig sig-c_suite">C-Suite</span>
+        <span class="dm-sig sig-c_suite">C-Suite</span></div>
         <div class="dm-contacts">
-          <a href="mailto:lewcock@dnli.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> lewcock@dnli.com</a>
+          <a href="mailto:lewcock@dnli.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">lewcock@dnli.com</span></a>
           <a href="https://linkedin.com/in/joe-lewcock-2858154" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Don Zhong</div>
+        <div class="dm-info"><div class="dm-name">Don Zhong</div>
         <div class="dm-title">Sr. Director, Head of Bioanalytical Development</div>
-        <span class="dm-sig sig-head">Head</span>
+        <span class="dm-sig sig-head">Head</span></div>
         <div class="dm-contacts">
-          <a href="mailto:zhong@dnli.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> zhong@dnli.com</a>
+          <a href="mailto:zhong@dnli.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">zhong@dnli.com</span></a>
           <a href="https://linkedin.com/in/don-zhong-b858336" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Alexander Ungewickell</div>
+        <div class="dm-info"><div class="dm-name">Alexander Ungewickell</div>
         <div class="dm-title">Vice President, Clinical Development and Translational Medicine</div>
-        <span class="dm-sig sig-vp">VP</span>
+        <span class="dm-sig sig-vp">VP</span></div>
         <div class="dm-contacts">
-          <a href="mailto:ungewickell@dnli.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> ungewickell@dnli.com</a>
+          <a href="mailto:ungewickell@dnli.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">ungewickell@dnli.com</span></a>
           <a href="https://linkedin.com/in/alexander-ungewickell-841b1852" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Charles Morgan</div>
+        <div class="dm-info"><div class="dm-name">Charles Morgan</div>
         <div class="dm-title">Executive Director Regulatory CMC</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:morgan@dnli.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> morgan@dnli.com</a>
+          <a href="mailto:morgan@dnli.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">morgan@dnli.com</span></a>
           <a href="https://linkedin.com/in/charles-morgan-1a496812" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
@@ -659,11 +688,11 @@ body {
     <div class="sec-label">Key Decision Makers</div>
     <div class="dm-grid">
       <div class="dm-card">
-        <div class="dm-name">Andrew Yates</div>
+        <div class="dm-info"><div class="dm-name">Andrew Yates</div>
         <div class="dm-title">Chief Scientific Officer</div>
-        <span class="dm-sig sig-c_suite">C-Suite</span>
+        <span class="dm-sig sig-c_suite">C-Suite</span></div>
         <div class="dm-contacts">
-          <a href="mailto:andy@artelobio.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> andy@artelobio.com</a>
+          <a href="mailto:andy@artelobio.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">andy@artelobio.com</span></a>
           <a href="https://linkedin.com/in/andrew-yates-5233082aa" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
@@ -698,27 +727,27 @@ body {
     <div class="sec-label">Key Decision Makers</div>
     <div class="dm-grid">
       <div class="dm-card">
-        <div class="dm-name">Paul Rubin</div>
+        <div class="dm-info"><div class="dm-name">Paul Rubin</div>
         <div class="dm-title">Chief Medical Officer</div>
-        <span class="dm-sig sig-c_suite">C-Suite</span>
+        <span class="dm-sig sig-c_suite">C-Suite</span></div>
         <div class="dm-contacts">
-          <a href="mailto:paulr@bioagelabs.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> paulr@bioagelabs.com</a>
+          <a href="mailto:paulr@bioagelabs.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">paulr@bioagelabs.com</span></a>
           <a href="https://linkedin.com/in/paul-rubin-83698812" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Jill Aremia</div>
+        <div class="dm-info"><div class="dm-name">Jill Aremia</div>
         <div class="dm-title">VP, R&D Operations</div>
-        <span class="dm-sig sig-vp">VP</span>
+        <span class="dm-sig sig-vp">VP</span></div>
         <div class="dm-contacts">
-          <a href="mailto:jill.aremia@bioagelabs.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> jill.aremia@bioagelabs.com</a>
+          <a href="mailto:jill.aremia@bioagelabs.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">jill.aremia@bioagelabs.com</span></a>
           <a href="https://linkedin.com/in/jill-aremia-89716619" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Sreekanth Penumetsa</div>
+        <div class="dm-info"><div class="dm-name">Sreekanth Penumetsa</div>
         <div class="dm-title">Associate Director, CMC</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
           <a href="https://linkedin.com/in/sreekanthpenumetsasa" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
@@ -754,47 +783,47 @@ body {
     <div class="sec-label">Key Decision Makers</div>
     <div class="dm-grid">
       <div class="dm-card">
-        <div class="dm-name">Clive Patience</div>
+        <div class="dm-info"><div class="dm-name">Clive Patience</div>
         <div class="dm-title">Chief Technical Operations Officer</div>
-        <span class="dm-sig sig-c_suite">C-Suite</span>
+        <span class="dm-sig sig-c_suite">C-Suite</span></div>
         <div class="dm-contacts">
-          <a href="mailto:clive.patience@agios.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> clive.patience@agios.com</a>
+          <a href="mailto:clive.patience@agios.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">clive.patience@agios.com</span></a>
           <a href="https://linkedin.com/in/clive-patience-313469a" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Katie Niland</div>
+        <div class="dm-info"><div class="dm-name">Katie Niland</div>
         <div class="dm-title">Vice President, Clinical Development Operations</div>
-        <span class="dm-sig sig-vp">VP</span>
+        <span class="dm-sig sig-vp">VP</span></div>
         <div class="dm-contacts">
-          <a href="mailto:katie.niland@agios.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> katie.niland@agios.com</a>
+          <a href="mailto:katie.niland@agios.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">katie.niland@agios.com</span></a>
           <a href="https://linkedin.com/in/katie-niland-ms-7602864" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Pat Marolda</div>
+        <div class="dm-info"><div class="dm-name">Pat Marolda</div>
         <div class="dm-title">Vice President Facilities & Operations</div>
-        <span class="dm-sig sig-vp">VP</span>
+        <span class="dm-sig sig-vp">VP</span></div>
         <div class="dm-contacts">
-          <a href="mailto:pat.marolda@agios.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> pat.marolda@agios.com</a>
+          <a href="mailto:pat.marolda@agios.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">pat.marolda@agios.com</span></a>
           <a href="https://linkedin.com/in/pat-marolda-38b9a443" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Rohan Durbal</div>
+        <div class="dm-info"><div class="dm-name">Rohan Durbal</div>
         <div class="dm-title">Associate Director, External Manufacturing, Commercial Operations</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:rohan.durbal@agios.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> rohan.durbal@agios.com</a>
+          <a href="mailto:rohan.durbal@agios.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">rohan.durbal@agios.com</span></a>
           <a href="https://linkedin.com/in/rohan-durbal-b1297531" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Curtis Leung</div>
+        <div class="dm-info"><div class="dm-name">Curtis Leung</div>
         <div class="dm-title">Director, CMC Formulation Development and Manufacturing</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:curtis.leung@agios.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> curtis.leung@agios.com</a>
+          <a href="mailto:curtis.leung@agios.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">curtis.leung@agios.com</span></a>
           <a href="https://linkedin.com/in/curtis-leung-7400825b" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
@@ -829,11 +858,11 @@ body {
     <div class="sec-label">Key Decision Makers</div>
     <div class="dm-grid">
       <div class="dm-card">
-        <div class="dm-name">Stephanie Moreno</div>
+        <div class="dm-info"><div class="dm-name">Stephanie Moreno</div>
         <div class="dm-title">Associate Director, Manufacturing</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:smoreno@artivabio.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> smoreno@artivabio.com</a>
+          <a href="mailto:smoreno@artivabio.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">smoreno@artivabio.com</span></a>
           <a href="https://linkedin.com/in/stephanie-moreno-1702a413" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
@@ -868,64 +897,64 @@ body {
     <div class="sec-label">Key Decision Makers</div>
     <div class="dm-grid">
       <div class="dm-card">
-        <div class="dm-name">Ranjan Batra</div>
+        <div class="dm-info"><div class="dm-name">Ranjan Batra</div>
         <div class="dm-title">Chief Scientific Officer</div>
-        <span class="dm-sig sig-c_suite">C-Suite</span>
+        <span class="dm-sig sig-c_suite">C-Suite</span></div>
         <div class="dm-contacts">
           <a href="https://linkedin.com/in/batraron" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Michael Shifrin</div>
+        <div class="dm-info"><div class="dm-name">Michael Shifrin</div>
         <div class="dm-title">Vice President CMC</div>
-        <span class="dm-sig sig-vp">VP</span>
+        <span class="dm-sig sig-vp">VP</span></div>
         <div class="dm-contacts">
-          <a href="mailto:michael.shifrin@dyne-tx.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> michael.shifrin@dyne-tx.com</a>
+          <a href="mailto:michael.shifrin@dyne-tx.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">michael.shifrin@dyne-tx.com</span></a>
           <a href="https://linkedin.com/in/michael-shifrin-91b81214" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Mary Geissler</div>
+        <div class="dm-info"><div class="dm-name">Mary Geissler</div>
         <div class="dm-title">Vice President, Global Regulatory Affairs</div>
-        <span class="dm-sig sig-vp">VP</span>
+        <span class="dm-sig sig-vp">VP</span></div>
         <div class="dm-contacts">
-          <a href="mailto:mary.geissler@dyne-tx.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> mary.geissler@dyne-tx.com</a>
+          <a href="mailto:mary.geissler@dyne-tx.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">mary.geissler@dyne-tx.com</span></a>
           <a href="https://linkedin.com/in/mary-geissler-74993613" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Mark Derose</div>
+        <div class="dm-info"><div class="dm-name">Mark Derose</div>
         <div class="dm-title">Sr. Director, Drug Product Manufacturing</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:mark.derose@dyne-tx.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> mark.derose@dyne-tx.com</a>
+          <a href="mailto:mark.derose@dyne-tx.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">mark.derose@dyne-tx.com</span></a>
           <a href="https://linkedin.com/in/mark-derose-4b467a5" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Melissa Good</div>
+        <div class="dm-info"><div class="dm-name">Melissa Good</div>
         <div class="dm-title">Associate Director</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:melissa.good@dyne-tx.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> melissa.good@dyne-tx.com</a>
+          <a href="mailto:melissa.good@dyne-tx.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">melissa.good@dyne-tx.com</span></a>
           <a href="https://linkedin.com/in/melissaraegood" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Diane Defilippo</div>
+        <div class="dm-info"><div class="dm-name">Diane Defilippo</div>
         <div class="dm-title">Sr. Director, Regulatory Project Management</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:diane.defilippo@dyne-tx.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> diane.defilippo@dyne-tx.com</a>
+          <a href="mailto:diane.defilippo@dyne-tx.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">diane.defilippo@dyne-tx.com</span></a>
           <a href="https://linkedin.com/in/dianealvarado" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Oreoluwa Ade-Army</div>
+        <div class="dm-info"><div class="dm-name">Oreoluwa Ade-Army</div>
         <div class="dm-title">Associate Director, Regulatory Affairs</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:oreoluwa.army@dyne-tx.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> oreoluwa.army@dyne-tx.com</a>
+          <a href="mailto:oreoluwa.army@dyne-tx.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">oreoluwa.army@dyne-tx.com</span></a>
           <a href="https://linkedin.com/in/oreoluwaarmy" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
@@ -989,35 +1018,35 @@ body {
     <div class="sec-label">Key Decision Makers</div>
     <div class="dm-grid">
       <div class="dm-card">
-        <div class="dm-name">Nhi Duong</div>
+        <div class="dm-info"><div class="dm-name">Nhi Duong</div>
         <div class="dm-title">Manager, Regulatory Affairs CMC</div>
-        <span class="dm-sig sig-manager">Manager</span>
+        <span class="dm-sig sig-manager">Manager</span></div>
         <div class="dm-contacts">
-          <a href="mailto:nhi.duong@tgtxinc.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> nhi.duong@tgtxinc.com</a>
+          <a href="mailto:nhi.duong@tgtxinc.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">nhi.duong@tgtxinc.com</span></a>
           <a href="https://linkedin.com/in/nhi-duong-pharmd-666378195" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Jay Leversee</div>
+        <div class="dm-info"><div class="dm-name">Jay Leversee</div>
         <div class="dm-title">Senior Director Downstream MSAT</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:jay.leversee@tgtxinc.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> jay.leversee@tgtxinc.com</a>
+          <a href="mailto:jay.leversee@tgtxinc.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">jay.leversee@tgtxinc.com</span></a>
           <a href="https://linkedin.com/in/jay-leversee-213b012" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Kenneth Miller</div>
+        <div class="dm-info"><div class="dm-name">Kenneth Miller</div>
         <div class="dm-title">Director</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
           <a href="https://linkedin.com/in/kenneth--miller-" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Kate Rastok</div>
+        <div class="dm-info"><div class="dm-name">Kate Rastok</div>
         <div class="dm-title">Associate Director, US Regulatory Affairs Ad Promo</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
           <a href="https://linkedin.com/in/kate-rastok-9b3b796b" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
@@ -1053,47 +1082,47 @@ body {
     <div class="sec-label">Key Decision Makers</div>
     <div class="dm-grid">
       <div class="dm-card">
-        <div class="dm-name">Robert Waltermire</div>
+        <div class="dm-info"><div class="dm-name">Robert Waltermire</div>
         <div class="dm-title">Chief Pharmaceutical Development Officer</div>
-        <span class="dm-sig sig-c_suite">C-Suite</span>
+        <span class="dm-sig sig-c_suite">C-Suite</span></div>
         <div class="dm-contacts">
-          <a href="mailto:robert.waltermire@madrigalpharma.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> robert.waltermire@madrigalpharma.com</a>
+          <a href="mailto:robert.waltermire@madrigalpharma.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">robert.waltermire@madrigalpharma.com</span></a>
           <a href="https://linkedin.com/in/robert-waltermire-48b1b18" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Brian Dipaolo</div>
+        <div class="dm-info"><div class="dm-name">Brian Dipaolo</div>
         <div class="dm-title">Vice President, Regulatory Affairs CMC</div>
-        <span class="dm-sig sig-vp">VP</span>
+        <span class="dm-sig sig-vp">VP</span></div>
         <div class="dm-contacts">
-          <a href="mailto:bdipaolo@madrigalpharma.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> bdipaolo@madrigalpharma.com</a>
+          <a href="mailto:bdipaolo@madrigalpharma.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">bdipaolo@madrigalpharma.com</span></a>
           <a href="https://linkedin.com/in/brian-dipaolo-a217061" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Tom Pokorny</div>
+        <div class="dm-info"><div class="dm-name">Tom Pokorny</div>
         <div class="dm-title">Vice President, Strategic Sourcing and Procurement</div>
-        <span class="dm-sig sig-vp">VP</span>
+        <span class="dm-sig sig-vp">VP</span></div>
         <div class="dm-contacts">
-          <a href="mailto:tpokorny@madrigalpharma.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> tpokorny@madrigalpharma.com</a>
+          <a href="mailto:tpokorny@madrigalpharma.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">tpokorny@madrigalpharma.com</span></a>
           <a href="https://linkedin.com/in/tom-pokorny-4006894" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Harris Rotman</div>
+        <div class="dm-info"><div class="dm-name">Harris Rotman</div>
         <div class="dm-title">Senior Vice President, Head of Global Regulatory Affairs</div>
-        <span class="dm-sig sig-vp">VP</span>
+        <span class="dm-sig sig-vp">VP</span></div>
         <div class="dm-contacts">
-          <a href="mailto:hrotman@madrigalpharma.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> hrotman@madrigalpharma.com</a>
+          <a href="mailto:hrotman@madrigalpharma.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">hrotman@madrigalpharma.com</span></a>
           <a href="https://linkedin.com/in/harrisrotman" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Raul Camacho</div>
+        <div class="dm-info"><div class="dm-name">Raul Camacho</div>
         <div class="dm-title">Director Research Scientist</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:rcamacho@madrigalpharma.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> rcamacho@madrigalpharma.com</a>
+          <a href="mailto:rcamacho@madrigalpharma.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">rcamacho@madrigalpharma.com</span></a>
           <a href="https://linkedin.com/in/raul-camacho-28a13623" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
@@ -1157,37 +1186,37 @@ body {
     <div class="sec-label">Key Decision Makers</div>
     <div class="dm-grid">
       <div class="dm-card">
-        <div class="dm-name">Anubhav Arora</div>
+        <div class="dm-info"><div class="dm-name">Anubhav Arora</div>
         <div class="dm-title">Director, CMC</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:anubhav.arora@apellis.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> anubhav.arora@apellis.com</a>
+          <a href="mailto:anubhav.arora@apellis.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">anubhav.arora@apellis.com</span></a>
           <a href="https://linkedin.com/in/aa8ul" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Kristopher Weatherby</div>
+        <div class="dm-info"><div class="dm-name">Kristopher Weatherby</div>
         <div class="dm-title">Director, Technical Operations, Drug Product Manufacturing</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
           <a href="https://linkedin.com/in/kristopherweatherby" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Dale Conui</div>
+        <div class="dm-info"><div class="dm-name">Dale Conui</div>
         <div class="dm-title">Director, Global Strategic Sourcing</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:dale.conui@apellis.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> dale.conui@apellis.com</a>
+          <a href="mailto:dale.conui@apellis.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">dale.conui@apellis.com</span></a>
           <a href="https://linkedin.com/in/dale-conui-8194424" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Susan Corl</div>
+        <div class="dm-info"><div class="dm-name">Susan Corl</div>
         <div class="dm-title">Senior Manager Regulatory Affairs</div>
-        <span class="dm-sig sig-manager">Manager</span>
+        <span class="dm-sig sig-manager">Manager</span></div>
         <div class="dm-contacts">
-          <a href="mailto:susan.corl@apellis.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> susan.corl@apellis.com</a>
+          <a href="mailto:susan.corl@apellis.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">susan.corl@apellis.com</span></a>
           <a href="https://linkedin.com/in/susan-a-susie-corl-9843599" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
@@ -1222,56 +1251,56 @@ body {
     <div class="sec-label">Key Decision Makers</div>
     <div class="dm-grid">
       <div class="dm-card">
-        <div class="dm-name">Mark Hope</div>
+        <div class="dm-info"><div class="dm-name">Mark Hope</div>
         <div class="dm-title">SVP, Head of Regulatory and Quality</div>
-        <span class="dm-sig sig-vp">VP</span>
+        <span class="dm-sig sig-vp">VP</span></div>
         <div class="dm-contacts">
-          <a href="mailto:mhope@mbxbio.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> mhope@mbxbio.com</a>
+          <a href="mailto:mhope@mbxbio.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">mhope@mbxbio.com</span></a>
           <a href="https://linkedin.com/in/mark-j-hope" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Chatan Charan</div>
+        <div class="dm-info"><div class="dm-name">Chatan Charan</div>
         <div class="dm-title">SVP Pharmaceutical Development and CMC at MBX Biosciences</div>
-        <span class="dm-sig sig-vp">VP</span>
+        <span class="dm-sig sig-vp">VP</span></div>
         <div class="dm-contacts">
-          <a href="mailto:ccharan@mbxbio.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> ccharan@mbxbio.com</a>
+          <a href="mailto:ccharan@mbxbio.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">ccharan@mbxbio.com</span></a>
           <a href="https://linkedin.com/in/chatan-charan-833bb53" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Carolyn Vanluchene</div>
+        <div class="dm-info"><div class="dm-name">Carolyn Vanluchene</div>
         <div class="dm-title">CMC Project Management Director</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:cvanluchene@mbxbio.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> cvanluchene@mbxbio.com</a>
+          <a href="mailto:cvanluchene@mbxbio.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">cvanluchene@mbxbio.com</span></a>
           <a href="https://linkedin.com/in/cfishervanluchene" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Chris Kelly</div>
+        <div class="dm-info"><div class="dm-name">Chris Kelly</div>
         <div class="dm-title">Senior Director, Regulatory Affairs CMC</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:ckelly@mbxbio.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> ckelly@mbxbio.com</a>
+          <a href="mailto:ckelly@mbxbio.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">ckelly@mbxbio.com</span></a>
           <a href="https://linkedin.com/in/chris-kelly-785a1655" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Brian Culp</div>
+        <div class="dm-info"><div class="dm-name">Brian Culp</div>
         <div class="dm-title">Director, Procurement & Vendor Management</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:bculp@mbxbio.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> bculp@mbxbio.com</a>
+          <a href="mailto:bculp@mbxbio.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">bculp@mbxbio.com</span></a>
           <a href="https://linkedin.com/in/brian-culp-4b25398" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Rachel Morrison</div>
+        <div class="dm-info"><div class="dm-name">Rachel Morrison</div>
         <div class="dm-title">Director of Regulatory Affairs</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:rmorrison@mbxbio.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> rmorrison@mbxbio.com</a>
+          <a href="mailto:rmorrison@mbxbio.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">rmorrison@mbxbio.com</span></a>
           <a href="https://linkedin.com/in/rachel-morrison-a04b201b" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
@@ -1335,38 +1364,38 @@ body {
     <div class="sec-label">Key Decision Makers</div>
     <div class="dm-grid">
       <div class="dm-card">
-        <div class="dm-name">Ryan Dickerson</div>
+        <div class="dm-info"><div class="dm-name">Ryan Dickerson</div>
         <div class="dm-title">Head of Process Development</div>
-        <span class="dm-sig sig-head">Head</span>
+        <span class="dm-sig sig-head">Head</span></div>
         <div class="dm-contacts">
-          <a href="mailto:rdickerson@scholarrock.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> rdickerson@scholarrock.com</a>
+          <a href="mailto:rdickerson@scholarrock.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">rdickerson@scholarrock.com</span></a>
           <a href="https://linkedin.com/in/ryan-dickerson-biotech" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Tim Craven</div>
+        <div class="dm-info"><div class="dm-name">Tim Craven</div>
         <div class="dm-title">Associate Director, Supply Chain Operations</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:tcraven@scholarrock.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> tcraven@scholarrock.com</a>
+          <a href="mailto:tcraven@scholarrock.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">tcraven@scholarrock.com</span></a>
           <a href="https://linkedin.com/in/timkettscraven" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Jonathan Hamm</div>
+        <div class="dm-info"><div class="dm-name">Jonathan Hamm</div>
         <div class="dm-title">Senior Director, Intellectual Property</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:jhamm@scholarrock.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> jhamm@scholarrock.com</a>
+          <a href="mailto:jhamm@scholarrock.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">jhamm@scholarrock.com</span></a>
           <a href="https://linkedin.com/in/jonathankhamm" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Yiwei Zhao</div>
+        <div class="dm-info"><div class="dm-name">Yiwei Zhao</div>
         <div class="dm-title">Sr. Director of Analytical and Formulation Development</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:yzhao@scholarrock.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> yzhao@scholarrock.com</a>
+          <a href="mailto:yzhao@scholarrock.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">yzhao@scholarrock.com</span></a>
           <a href="https://linkedin.com/in/zhao-yiwei1" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
@@ -1401,20 +1430,20 @@ body {
     <div class="sec-label">Key Decision Makers</div>
     <div class="dm-grid">
       <div class="dm-card">
-        <div class="dm-name">Ravindra Kumar</div>
+        <div class="dm-info"><div class="dm-name">Ravindra Kumar</div>
         <div class="dm-title">Director, Head of Analytical and BioAnalytical</div>
-        <span class="dm-sig sig-head">Head</span>
+        <span class="dm-sig sig-head">Head</span></div>
         <div class="dm-contacts">
-          <a href="mailto:ravindra.kumar@ocugen.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> ravindra.kumar@ocugen.com</a>
+          <a href="mailto:ravindra.kumar@ocugen.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">ravindra.kumar@ocugen.com</span></a>
           <a href="https://linkedin.com/in/ravindra-kumar-3a916813" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Haibo Zhang</div>
+        <div class="dm-info"><div class="dm-name">Haibo Zhang</div>
         <div class="dm-title">Associate Director of Vaccines, Gene Therapy</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:haibo.zhang@ocugen.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> haibo.zhang@ocugen.com</a>
+          <a href="mailto:haibo.zhang@ocugen.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">haibo.zhang@ocugen.com</span></a>
           <a href="https://linkedin.com/in/haibo-zhang-82761032" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
@@ -1710,43 +1739,43 @@ body {
     <div class="sec-label">Key Decision Makers</div>
     <div class="dm-grid">
       <div class="dm-card">
-        <div class="dm-name">Newman Yeilding</div>
+        <div class="dm-info"><div class="dm-name">Newman Yeilding</div>
         <div class="dm-title">Chief Scientific Officer</div>
-        <span class="dm-sig sig-c_suite">C-Suite</span>
+        <span class="dm-sig sig-c_suite">C-Suite</span></div>
         <div class="dm-contacts">
           <a href="https://linkedin.com/in/newman-yeilding-m-d-26017020" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Hemanth Amarchinta</div>
+        <div class="dm-info"><div class="dm-name">Hemanth Amarchinta</div>
         <div class="dm-title">Senior Director, Head of Device and Packaging Engineering</div>
-        <span class="dm-sig sig-head">Head</span>
+        <span class="dm-sig sig-head">Head</span></div>
         <div class="dm-contacts">
-          <a href="mailto:h.amarchinta@ptgx-inc.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> h.amarchinta@ptgx-inc.com</a>
+          <a href="mailto:h.amarchinta@ptgx-inc.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">h.amarchinta@ptgx-inc.com</span></a>
           <a href="https://linkedin.com/in/hemanth-amarchinta-phd-0014248" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Shravan Mutyam</div>
+        <div class="dm-info"><div class="dm-name">Shravan Mutyam</div>
         <div class="dm-title">Associate Director, CMC Formulation Dev. & Manufacturing</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:s.mutyam@ptgx-inc.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> s.mutyam@ptgx-inc.com</a>
+          <a href="mailto:s.mutyam@ptgx-inc.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">s.mutyam@ptgx-inc.com</span></a>
           <a href="https://linkedin.com/in/shravan-k-mutyam-b147a17" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Christopher Owczarek</div>
+        <div class="dm-info"><div class="dm-name">Christopher Owczarek</div>
         <div class="dm-title">Associate Director Chemistry Development and QC</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
           <a href="https://linkedin.com/in/christopher-owczarek-1a62981" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Amy Ding</div>
+        <div class="dm-info"><div class="dm-name">Amy Ding</div>
         <div class="dm-title">Senior Director, Global Regulatory Affairs</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
           <a href="https://linkedin.com/in/amy-ding-phd-rac-7929024" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
@@ -1985,45 +2014,45 @@ body {
     <div class="sec-label">Key Decision Makers</div>
     <div class="dm-grid">
       <div class="dm-card">
-        <div class="dm-name">Paul McCormac</div>
+        <div class="dm-info"><div class="dm-name">Paul McCormac</div>
         <div class="dm-title">Chief Technical Officer</div>
-        <span class="dm-sig sig-c_suite">C-Suite</span>
+        <span class="dm-sig sig-c_suite">C-Suite</span></div>
         <div class="dm-contacts">
-          <a href="mailto:pbmccormac@lexeotx.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> pbmccormac@lexeotx.com</a>
+          <a href="mailto:pbmccormac@lexeotx.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">pbmccormac@lexeotx.com</span></a>
           <a href="https://linkedin.com/in/paul-mccormac-8589293" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Miranda Russell</div>
+        <div class="dm-info"><div class="dm-name">Miranda Russell</div>
         <div class="dm-title">Associate Director, CMC Planning & Operations</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:mrussell@lexeotx.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> mrussell@lexeotx.com</a>
+          <a href="mailto:mrussell@lexeotx.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">mrussell@lexeotx.com</span></a>
           <a href="https://linkedin.com/in/miranda-russell23" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Nene Kalu</div>
+        <div class="dm-info"><div class="dm-name">Nene Kalu</div>
         <div class="dm-title">Director, Process Development & Manufacturing Ops</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:nnkalu@lexeotx.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> nnkalu@lexeotx.com</a>
+          <a href="mailto:nnkalu@lexeotx.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">nnkalu@lexeotx.com</span></a>
           <a href="https://linkedin.com/in/nenekaluphd" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Nithya Selvan</div>
+        <div class="dm-info"><div class="dm-name">Nithya Selvan</div>
         <div class="dm-title">Director, Bioanalytical Development and Quality</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:nselvan@lexeotx.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> nselvan@lexeotx.com</a>
+          <a href="mailto:nselvan@lexeotx.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">nselvan@lexeotx.com</span></a>
           <a href="https://linkedin.com/in/nithya-selvan-ph-d-1a665622" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Allie Vanpelt</div>
+        <div class="dm-info"><div class="dm-name">Allie Vanpelt</div>
         <div class="dm-title">Research Associate: Downstream Process Development</div>
-        <span class="dm-sig sig-entry">Associate</span>
+        <span class="dm-sig sig-entry">Associate</span></div>
         <div class="dm-contacts">
           <a href="https://linkedin.com/in/allie-vanpelt-282645173" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
@@ -2059,20 +2088,20 @@ body {
     <div class="sec-label">Key Decision Makers</div>
     <div class="dm-grid">
       <div class="dm-card">
-        <div class="dm-name">Dan Tardiff</div>
+        <div class="dm-info"><div class="dm-name">Dan Tardiff</div>
         <div class="dm-title">Chief Scientific Officer</div>
-        <span class="dm-sig sig-c_suite">C-Suite</span>
+        <span class="dm-sig sig-c_suite">C-Suite</span></div>
         <div class="dm-contacts">
-          <a href="mailto:dtardiff@camp4tx.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> dtardiff@camp4tx.com</a>
+          <a href="mailto:dtardiff@camp4tx.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">dtardiff@camp4tx.com</span></a>
           <a href="https://linkedin.com/in/dan-tardiff-6733943" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Satya Kuchimanchi</div>
+        <div class="dm-info"><div class="dm-name">Satya Kuchimanchi</div>
         <div class="dm-title">SVP, Technical Operations, CMC</div>
-        <span class="dm-sig sig-vp">VP</span>
+        <span class="dm-sig sig-vp">VP</span></div>
         <div class="dm-contacts">
-          <a href="mailto:skuchimanchi@camp4tx.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> skuchimanchi@camp4tx.com</a>
+          <a href="mailto:skuchimanchi@camp4tx.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">skuchimanchi@camp4tx.com</span></a>
           <a href="https://linkedin.com/in/satya-kuchimanchi-a6bb371" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
@@ -2107,17 +2136,17 @@ body {
     <div class="sec-label">Key Decision Makers</div>
     <div class="dm-grid">
       <div class="dm-card">
-        <div class="dm-name">Nil Patel</div>
+        <div class="dm-info"><div class="dm-name">Nil Patel</div>
         <div class="dm-title">Associate Director, Regulatory Affairs</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
           <a href="https://linkedin.com/in/nil-patel-22138413b" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">William Stahovec</div>
+        <div class="dm-info"><div class="dm-name">William Stahovec</div>
         <div class="dm-title">Senior Director of Regulatory Affairs</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
           <a href="https://linkedin.com/in/william-stahovec-57817a20" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
@@ -2153,44 +2182,44 @@ body {
     <div class="sec-label">Key Decision Makers</div>
     <div class="dm-grid">
       <div class="dm-card">
-        <div class="dm-name">Aarif Khakoo</div>
+        <div class="dm-info"><div class="dm-name">Aarif Khakoo</div>
         <div class="dm-title">Chief Scientific Officer</div>
-        <span class="dm-sig sig-c_suite">C-Suite</span>
+        <span class="dm-sig sig-c_suite">C-Suite</span></div>
         <div class="dm-contacts">
-          <a href="mailto:akhakoo@generatebiomedicines.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> akhakoo@generatebiomedicines.com</a>
+          <a href="mailto:akhakoo@generatebiomedicines.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">akhakoo@generatebiomedicines.com</span></a>
           <a href="https://linkedin.com/in/aarif-khakoo-a134b64" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Vikram Sadineni</div>
+        <div class="dm-info"><div class="dm-name">Vikram Sadineni</div>
         <div class="dm-title">Vice President, Technical Development</div>
-        <span class="dm-sig sig-vp">VP</span>
+        <span class="dm-sig sig-vp">VP</span></div>
         <div class="dm-contacts">
-          <a href="mailto:vsadineni@generatebiomedicines.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> vsadineni@generatebiomedicines.com</a>
+          <a href="mailto:vsadineni@generatebiomedicines.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">vsadineni@generatebiomedicines.com</span></a>
           <a href="https://linkedin.com/in/jayhawkervikram" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Irene Figari</div>
+        <div class="dm-info"><div class="dm-name">Irene Figari</div>
         <div class="dm-title">Vice President Regulatory Affairs</div>
-        <span class="dm-sig sig-vp">VP</span>
+        <span class="dm-sig sig-vp">VP</span></div>
         <div class="dm-contacts">
           <a href="https://linkedin.com/in/irene-figari-8300084" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Farrah Chaudhary</div>
+        <div class="dm-info"><div class="dm-name">Farrah Chaudhary</div>
         <div class="dm-title">Senior Director CMC Strategic Planning & Operations</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
-          <a href="mailto:fchaudhary@generatebiomedicines.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> fchaudhary@generatebiomedicines.com</a>
+          <a href="mailto:fchaudhary@generatebiomedicines.com" class="btn-c btn-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="btn-text">fchaudhary@generatebiomedicines.com</span></a>
           <a href="https://linkedin.com/in/farrahchaudhary" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
       </div>
       <div class="dm-card">
-        <div class="dm-name">Greg Ryan</div>
+        <div class="dm-info"><div class="dm-name">Greg Ryan</div>
         <div class="dm-title">Director of Procurement and Strategic Sourcing</div>
-        <span class="dm-sig sig-director">Director</span>
+        <span class="dm-sig sig-director">Director</span></div>
         <div class="dm-contacts">
           <a href="https://linkedin.com/in/gregoryryan" target="_blank" class="btn-c btn-li"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
