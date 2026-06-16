@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BIO Prep for Uday — ExcellGene | Lunartree</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -28,30 +27,28 @@
   --gray-200: #e2e8f0;
   --gray-100: #f1f5f9;
   --gray-50: #f8fafc;
-  --white: #ffffff;
   --radius: 14px;
   --radius-sm: 8px;
   --shadow: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
 }
 
+/* ── SCREEN STYLES ── */
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Inter', -apple-system, sans-serif;
   background: #eef2f7;
   color: var(--gray-900);
   font-size: 14px;
   line-height: 1.5;
-  min-height: 100vh;
 }
 
-/* ── BANNER ── */
 .banner {
   background: linear-gradient(135deg, #071120 0%, var(--navy) 40%, #0d3d6b 100%);
   padding: 18px 32px;
   display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
 }
 .banner-left { display: flex; align-items: center; gap: 14px; }
-.banner-logo { width: 38px; height: 38px; border-radius: 8px; object-fit: cover; flex-shrink: 0; background: rgba(255,255,255,0.1); }
+.banner-logo { width: 38px; height: 38px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
 .banner-title { font-size: 14px; font-weight: 600; color: white; line-height: 1.3; }
 .banner-sub { font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 1px; }
 .btn-biolens {
@@ -66,13 +63,12 @@ body {
 .btn-biolens:hover { background: var(--blue-light); transform: translateY(-1px); }
 .btn-biolens svg { width: 14px; height: 14px; flex-shrink: 0; }
 
-/* ── PAGE HEADER ── */
 .page-header {
   background: white; border-bottom: 1px solid var(--gray-200);
   padding: 28px 32px 24px;
   display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap;
 }
-.page-title { font-size: 24px; font-weight: 800; color: var(--navy); letter-spacing: -0.5px; line-height: 1.2; }
+.page-title { font-size: 24px; font-weight: 800; color: var(--navy); letter-spacing: -0.5px; }
 .page-title span { color: var(--blue-mid); }
 .page-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
 .meta-tag {
@@ -81,6 +77,7 @@ body {
   background: var(--gray-100); padding: 3px 10px; border-radius: 20px;
 }
 .count-pill { background: var(--blue); color: white; font-size: 12px; font-weight: 600; padding: 3px 11px; border-radius: 20px; }
+
 .btn-export {
   display: inline-flex; align-items: center; gap: 7px;
   background: var(--navy); color: white;
@@ -94,18 +91,14 @@ body {
 .btn-export:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 .btn-export svg { width: 15px; height: 15px; flex-shrink: 0; }
 
-/* ── MAIN ── */
 .main { padding: 28px 32px; }
 
-/* ── COMPANY CARD ── */
 .company-card {
   background: white; border: 1px solid var(--gray-200); border-radius: var(--radius);
   margin-bottom: 20px; box-shadow: var(--shadow); overflow: hidden;
-  break-inside: avoid; page-break-inside: avoid;
 }
 .co-header {
   padding: 20px 24px 16px; border-bottom: 1px solid var(--gray-100);
-  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
 }
 .co-num { font-size: 11px; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 3px; }
 .co-name { font-size: 19px; font-weight: 700; color: var(--navy); letter-spacing: -0.3px; }
@@ -113,17 +106,15 @@ body {
 .badge { font-size: 11px; font-weight: 500; padding: 2px 9px; border-radius: 20px; white-space: nowrap; }
 .badge-type { background: var(--blue-light); color: var(--blue); }
 .badge-stage { background: var(--green-bg); color: var(--green); }
-.badge-funding { background: var(--amber-bg); color: var(--amber); max-width: 300px; overflow: hidden; text-overflow: ellipsis; }
+.badge-funding { background: var(--amber-bg); color: var(--amber); }
 .co-country { font-size: 12px; color: var(--gray-400); margin-top: 6px; }
 .co-body { padding: 20px 24px; }
 
-/* Context */
 .context-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
 .ctx-box { background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); padding: 10px 13px; }
 .ctx-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; color: var(--gray-400); margin-bottom: 4px; }
 .ctx-val { font-size: 12px; color: var(--gray-700); line-height: 1.45; }
 
-/* Section label */
 .sec-label {
   font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;
   color: var(--blue); margin-bottom: 10px;
@@ -131,7 +122,6 @@ body {
 }
 .sec-label::after { content: ''; flex: 1; height: 1px; background: var(--blue-light); }
 
-/* Fit cards */
 .fit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
 .fit-card { background: var(--blue-pale); border: 1px solid var(--blue-light); border-radius: var(--radius-sm); padding: 12px 13px; }
 .fit-head { display: flex; align-items: center; gap: 7px; margin-bottom: 6px; }
@@ -139,7 +129,6 @@ body {
 .fit-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; color: var(--blue); }
 .fit-text { font-size: 11.5px; color: var(--gray-700); line-height: 1.5; }
 
-/* DM grid — 4 cols, equal-height cards */
 .dm-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; align-items: stretch; }
 .dm-card {
   background: var(--gray-50); border: 1px solid var(--gray-200);
@@ -148,27 +137,14 @@ body {
 }
 .dm-info { flex: 1; }
 .dm-name { font-size: 13px; font-weight: 600; color: var(--gray-900); line-height: 1.3; }
-.dm-title {
-  font-size: 11px; color: var(--gray-500); margin-top: 3px; line-height: 1.4;
-  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
-}
-.dm-sig {
-  display: inline-flex; align-items: center;
-  font-size: 10px; font-weight: 600;
-  padding: 2px 8px; border-radius: 10px; margin-top: 7px; width: fit-content;
-}
+.dm-title { font-size: 11px; color: var(--gray-500); margin-top: 3px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.dm-sig { display: inline-flex; align-items: center; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 10px; margin-top: 7px; width: fit-content; }
 .sig-c_suite { background: #fef3c7; color: #92400e; }
 .sig-vp { background: var(--blue-light); color: #1e40af; }
 .sig-head { background: var(--green-bg); color: #065f46; }
 .sig-director { background: var(--purple-bg); color: var(--purple); }
 .sig-manager,.sig-senior,.sig-entry { background: var(--gray-200); color: var(--gray-500); }
-
-/* contacts pinned to bottom */
-.dm-contacts {
-  display: flex; flex-direction: column; gap: 6px;
-  margin-top: 12px; padding-top: 10px;
-  border-top: 1px solid var(--gray-200);
-}
+.dm-contacts { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--gray-200); }
 .btn-c {
   display: inline-flex; align-items: center; gap: 6px;
   font-size: 11px; font-weight: 500;
@@ -185,11 +161,14 @@ body {
 .btn-c svg { width: 11px; height: 11px; flex-shrink: 0; }
 .no-dm { font-size: 12px; color: var(--gray-400); font-style: italic; padding: 6px 0; }
 
-/* ── EXPORT OVERLAY ── */
+.footer-banner { margin-top: 8px; }
+
+/* Export overlay */
 .export-overlay {
   display: none; position: fixed; inset: 0;
   background: rgba(10,22,40,0.65); z-index: 1000;
   align-items: center; justify-content: center;
+  flex-direction: column; gap: 0;
 }
 .export-overlay.active { display: flex; }
 .export-box {
@@ -204,7 +183,7 @@ body {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 .export-box h3 { font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
-.export-box p { font-size: 13px; color: var(--gray-500); }
+.export-box p { font-size: 13px; color: var(--gray-500); line-height: 1.6; }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 1100px) { .dm-grid { grid-template-columns: repeat(3, 1fr); } }
@@ -223,7 +202,7 @@ body {
   .context-row { grid-template-columns: 1fr; }
   .fit-grid { grid-template-columns: 1fr; }
   .dm-grid { grid-template-columns: repeat(2, 1fr); }
-  .btn-export .export-label { display: none; }
+  .export-label { display: none; }
 }
 @media (max-width: 500px) {
   .badge { font-size: 10px; padding: 2px 7px; }
@@ -231,13 +210,50 @@ body {
   .btn-c { font-size: 10px; }
 }
 
-/* ── PRINT ── */
+/* ── PRINT / PDF STYLES ── */
 @media print {
-  body { background: white; }
-  .btn-export, .export-overlay, .no-print { display: none !important; }
-  .company-card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
-  .banner { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .main { padding: 16px; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  body { background: white !important; font-size: 11px; }
+  .no-print { display: none !important; }
+  .banner {
+    background: linear-gradient(135deg, #071120 0%, #0a1628 40%, #0d3d6b 100%) !important;
+    padding: 12px 20px;
+  }
+  .page-header { padding: 16px 20px 12px; border-bottom: 2px solid #0f4c81; }
+  .page-title { font-size: 18px; }
+  .btn-export { display: none !important; }
+  .main { padding: 12px 20px; }
+  .company-card {
+    box-shadow: none !important;
+    border: 1px solid #e2e8f0 !important;
+    margin-bottom: 12px;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .co-header { padding: 12px 16px 10px; }
+  .co-name { font-size: 14px; }
+  .co-body { padding: 12px 16px; }
+  .fit-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
+  .fit-card { padding: 8px 10px; }
+  .fit-text { font-size: 9.5px; }
+  .dm-grid { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .dm-card { padding: 8px 10px; }
+  .dm-name { font-size: 10px; }
+  .dm-title { font-size: 9px; }
+  .dm-contacts { margin-top: 6px; padding-top: 6px; gap: 3px; }
+  .btn-c { font-size: 8.5px; padding: 3px 6px; }
+  .btn-li { background: #0a66c2 !important; color: white !important; }
+  .badge-type { background: #dbeafe !important; color: #0f4c81 !important; }
+  .badge-stage { background: #ecfdf5 !important; color: #059669 !important; }
+  .badge-funding { background: #fffbeb !important; color: #b45309 !important; }
+  .fit-card { background: #f0f7ff !important; }
+  .sig-c_suite { background: #fef3c7 !important; color: #92400e !important; }
+  .sig-vp { background: #dbeafe !important; color: #1e40af !important; }
+  .sig-head { background: #ecfdf5 !important; color: #065f46 !important; }
+  .sig-director { background: #f5f3ff !important; color: #7c3aed !important; }
+  .context-row { grid-template-columns: 1fr 1fr; }
+  .sec-label::after { background: #dbeafe !important; }
+  .footer-banner { margin-top: 4px; }
 }
 </style>
 </head>
@@ -270,13 +286,13 @@ body {
       <span class="count-pill">50 companies</span>
     </div>
   </div>
-  <button class="btn-export" onclick="exportPDF()" id="export-btn">
+  <button class="btn-export no-print" onclick="exportPDF()" id="export-btn">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
     <span class="export-label">Export PDF</span>
   </button>
 </div>
 
-<div class="main" id="export-content">
+<div class="main">
 <div class="company-card">
   <div class="co-header"><div>
     <div class="co-num">Company 01</div>
@@ -2568,7 +2584,8 @@ body {
   </div>
 </div>
 
-</div><!-- /main -->
+
+</div>
 
 <div class="footer-banner"><div class="banner">
   <div class="banner-left">
@@ -2584,54 +2601,32 @@ body {
   </a>
 </div></div>
 
-<!-- EXPORT OVERLAY -->
-<div class="export-overlay" id="export-overlay">
+<!-- Export overlay (screen only) -->
+<div class="export-overlay no-print" id="export-overlay">
   <div class="export-box">
     <div class="export-spinner"></div>
-    <h3>Generating PDF…</h3>
-    <p>Compiling all 50 companies.<br>This may take 20–40 seconds.</p>
+    <h3>Preparing PDF…</h3>
+    <p>Your browser's print dialog will open.<br>Choose <strong>Save as PDF</strong> as the destination.</p>
   </div>
 </div>
 
 <script>
 function exportPDF() {
-  const btn = document.getElementById('export-btn');
   const overlay = document.getElementById('export-overlay');
-  btn.disabled = true;
   overlay.classList.add('active');
 
-  // Capture the live page body directly — no hidden clone needed
-  const element = document.getElementById('export-content');
-
-  const opt = {
-    margin: [10, 10, 10, 10],
-    filename: 'BIO_Prep_Uday_ExcellGene_Lunartree.pdf',
-    image: { type: 'jpeg', quality: 0.90 },
-    html2canvas: {
-      scale: 1.5,
-      useCORS: true,
-      allowTaint: true,
-      logging: false,
-      windowWidth: document.documentElement.scrollWidth,
-      windowHeight: document.documentElement.scrollHeight,
-      scrollX: 0,
-      scrollY: 0
-    },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-    pagebreak: { mode: ['css', 'legacy'], avoid: ['.company-card', '.dm-card', '.fit-card'] }
-  };
-
-  html2pdf().set(opt).from(element).save()
-    .then(() => {
-      btn.disabled = false;
-      overlay.classList.remove('active');
-    })
-    .catch((e) => {
-      console.error('PDF error:', e);
-      btn.disabled = false;
-      overlay.classList.remove('active');
-    });
+  // Short delay so overlay renders before print dialog steals focus
+  setTimeout(function() {
+    window.print();
+    // Hide overlay after print dialog closes (works in most browsers)
+    overlay.classList.remove('active');
+  }, 300);
 }
+
+// Also hide overlay if user cancels print
+window.onafterprint = function() {
+  document.getElementById('export-overlay').classList.remove('active');
+};
 </script>
 </body>
 </html>
